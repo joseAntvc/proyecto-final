@@ -74,6 +74,15 @@
     color: var(--bs-white) !important;
 }
 
+.btn.border-primary {
+    transition: 0.5s;
+}
+
+.btn.border-primary:hover {
+    background: var(--bs-primary) !important;
+    color: var(--bs-white) !important;
+}
+
 /*** Topbar Start ***/
 .fixed-top {
     transition: 0.5s;
@@ -495,3 +504,6 @@
 }
 /*** Footer End ***/
 
+.text-primary {
+    color: #81C408 !important;
+}
