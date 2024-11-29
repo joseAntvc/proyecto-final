@@ -1,0 +1,51 @@
+/*Se ve en los detalles del productos*/
+.color-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid #ccc;
+}
+
+/*Maquetado d elos productos*/
+.fade-in {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fruite-item {
+  min-height: 450px; /*Se van a ocupar ambos para poder darle un tamaño correcto*/
+  max-height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden; 
+}
+
+.fruite-img {
+  display: flex; 
+  align-items: center; /*Lo que busco es centrar las imagenes para las que son rectanculares(Horizontales) como los zapatos normalmente*/ 
+  justify-content: center; 
+  height: 450px; /* Ahora si especifico el tamaño de la imagen, aunque se no se puede de ese tamaño lo completa el texto*/
+  background-color: white;
+}
+
+.fruite-img img { 
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text-product {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #fff; 
+}

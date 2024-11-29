@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import Search from '../elements/modals/Search';
+import Search from '../elements/Search';
 import { Link } from 'react-router-dom';
 
 function Header() {
     const [isLogIn, setIsLogIn] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
@@ -79,8 +80,8 @@ function Header() {
                                     </div>
                                 ) : (
                                     <div>
-                                        <Link to="/login" className="btn btn-primary me-2">Login</Link>
-                                        <Link to="/register" className="btn btn-secondary">Register</Link>
+                                        <Link to="/login" className="btn btn-primary me-2">Iniciar Sesión</Link>
+                                        <Link to="/register" className="btn btn-secondary">Crear cuenta</Link>
                                     </div>
                                 )}
                             </div>

@@ -11,7 +11,7 @@ function Footer() {
                             <div className="col-lg-3">
                                 <Link to="#">
                                     <h1 className="text-primary mb-0">Forests</h1>
-                                    <p className="text-secondary mb-0">New products</p>
+                                    <p className="text-secondary mb-0">Nuevos productos</p>
                                 </Link>
                             </div>
                             <div className="col-lg-3">
@@ -27,39 +27,38 @@ function Footer() {
                     <div className="row g-5">
                         <div className="col-lg-3 col-md-6">
                             <div className="footer-item">
-                                <h4 className="text-light mb-3">Why People Like us!</h4>
-                                <p className="mb-4">typesetting, remaining essentially unchanged. It was
-                                    popularised in the 1960s with the like Aldus PageMaker including of Lorem Ipsum.</p>
-                                <Link to="" className="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</Link>
+                                <h4 className="text-light mb-3">¡Porque la gente nos elige!</h4>
+                                <p className="mb-4 text-justify">Somos una tienda de productos que intenta estar a la moda, con ello estamos
+                                    en la vanguardia de los estilos mas nuevo de lo que quieras, ya sea ropa, muebles, electrodomesticos y más</p>
+                                <Link to="/contact" className="btn border-secondary py-2 px-4 rounded-pill text-primary">Leer más</Link>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6">
                             <div className="d-flex flex-column text-start footer-item">
-                                <h4 className="text-light mb-3">Shop Info</h4>
-                                <Link className="btn-link" to="">About Us</Link>
-                                <Link className="btn-link" to="">Contact Us</Link>
-                                <Link className="btn-link" to="">Privacy Policy</Link>
-                                <Link className="btn-link" to="">Terms & Condition</Link>
-                                <Link className="btn-link" to="">Return Policy</Link>
+                                <h4 className="text-light mb-3">Información de la Tienda</h4>
+                                <Link className="btn-link" to="">Sobre Nosotros</Link>
+                                <Link className="btn-link" to="">Contáctanos</Link>
+                                <Link className="btn-link" to="">Política de Privacidad</Link>
+                                <Link className="btn-link" to="">Términos y Condiciones</Link>
+                                <Link className="btn-link" to="">Política de Devoluciones</Link>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6">
                             <div className="d-flex flex-column text-start footer-item">
-                                <h4 className="text-light mb-3">Account</h4>
-                                <Link className="btn-link" to="">My Account</Link>
-                                <Link className="btn-link" to="/cart">Shopping Cart</Link>
-                                <Link className="btn-link" to="">Order History</Link>
-                                <Link className="btn-link" to="">International Orders</Link>
+                                <h4 className="text-light mb-3">Cuenta</h4>
+                                <Link className="btn-link" to="">Mi Cuenta</Link>
+                                <Link className="btn-link" to="/cart">Carrito de Compras</Link>
+                                <Link className="btn-link" to="">Historial de Pedidos</Link>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6">
                             <div className="footer-item">
-                                <h4 className="text-light mb-3">Contact</h4>
-                                <p>Address: 1429 Netus Rd, NY 48247</p>
-                                <p>Email: Example@gmail.com</p>
-                                <p>Phone: +0123 4567 8910</p>
-                                <p>Payment Accepted</p>
-                                <img src="img/payment.png" className="img-fluid" alt=""/>
+                                <h4 className="text-light mb-3">Contacto</h4>
+                                <p>Dirección: 1429 Netus Rd, NY 48247</p>
+                                <p>Correo: Ejemplo@gmail.com</p>
+                                <p>Teléfono: +0123 4567 8910</p>
+                                <p>Pagos Aceptados</p>
+                                <img src="img/payment.png" className="img-fluid" alt="Métodos de Pago" />
                             </div>
                         </div>
                     </div>
