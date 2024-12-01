@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Page from '../elements/Page'
 import Spinner from '../elements/Spinner';
 import { CartContext } from '../../context/CartContext';
@@ -7,6 +7,11 @@ function Cart() {
 
     const [loading, setLoading] = useState(true);
     const { carrito, priceTotal, hadleBorrar, handleSum, handleRest } = useContext(CartContext);
+    const code = useRef('');
+
+    const handleApplyCode = (e) => {
+        
+    }
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -81,8 +86,12 @@ function Cart() {
                     <div className="mt-3 d-flex justify-content-between mx-5">
                         <div className="d-flex align-items-center justify-content-center col-6">
                             <div className="d-flex h-auto w-auto align-items-center justify-content-center bg-light rounded p-5">
-                                <input type="text" className="border-0 border-bottom rounded me-5 p-3" placeholder="Codigo de descuento" />
-                                <button className="btn border-secondary rounded-pill px-4 py-3 text-primary bg-white" type="button">Aplicar cupon</button>
+                                <input type="text" className="border-0 border-bottom rounded me-5 p-3" placeholder="Codigo de descuento" 
+                                    ref={code}
+                                />
+                                <button className="btn border-secondary rounded-pill px-4 py-3 text-primary bg-white" type="button"
+                                    onClick={handleApplyCode}
+                                >Aplicar</button>
                             </div>
                         </div>
                         <div className="col-sm-8 col-md-7 col-lg-6 col-xl-4">

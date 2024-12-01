@@ -201,7 +201,7 @@ function Shop() {
                                                             <div className="col-lg-6">
                                                                 <i className="bi bi-exclamation-triangle display-1 text-secondary"></i>
                                                                 <h1 className="mb-4">{errorMessage}</h1>
-                                                                <p className="mb-4">Lo sentimos, limpia el buscador o selecciona de nuevo la ventana de shop</p>
+                                                                <p className="mb-4">Lo sentimos, limpia el buscador o selecciona la ventana de shop</p>
                                                                 <button className="btn border-secondary rounded-pill py-3 px-5" onClick={() => setSearchKeyword("")}>Regresar shop</button>
                                                             </div>
                                                         </div>

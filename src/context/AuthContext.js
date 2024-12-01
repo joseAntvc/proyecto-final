@@ -6,7 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [isLogIn, setIsLogIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('userToken');
+    const token = localStorage.getItem('user');
     if (token) { 
       setIsLogIn(true); // Usuario logueado
     } else {
