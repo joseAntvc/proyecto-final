@@ -4,6 +4,7 @@ import Page from '../elements/Page';
 import axios from 'axios';
 import Spinner from '../elements/Spinner';
 import { toast } from 'react-toastify';
+import Sidebar from './Sidebar';
 
 function UserProfile() {
     const { id } = useParams(); // Extrae el parámetro 'id' de la URL
@@ -120,25 +121,7 @@ function UserProfile() {
                     <h1 className="mb-4">Perfil del Usuario</h1>
                     <div className="row">
                         {/* Menú Lateral */}
-                        <div className="col-lg-3">
-                            <div className="bg-light p-4 rounded">
-                                <h4>Menú</h4>
-                                <ul className="list-unstyled">
-                                    <li>
-                                        <a href="#profile" className="d-block py-2 text-dark">Mi Perfil</a>
-                                    </li>
-                                    <li>
-                                        <a href="#orderHistory" className="d-block py-2 text-dark">Historial de Pedidos</a>
-                                    </li>
-                                    <li>
-                                        <a href="#accountSettings" className="d-block py-2 text-dark">Configuraciones de Cuenta</a>
-                                    </li>
-                                    <li>
-                                        <a href="#accountSettings" className="d-block py-2 text-dark">Mis productos</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <Sidebar/>
 
                         {/* Contenido Principal */}
                         <div className="col-lg-9">

@@ -15,6 +15,8 @@ import Login from "./components/Pages/Login"
 import Register from "./components/Pages/Register"
 import Testimonial from "./components/Pages/Testimonial"
 import MyAddress from "./components/Pages/MyAddress";
+import UserProfile from "./components/Pages/UserProfile";
+import OrderHistory from "./components/Pages/OrderHistory";
 
 function App() {
 
@@ -33,6 +35,8 @@ function App() {
             <Route path="/address" element={<MyAddress />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/order-history" element={<OrderHistory />} />
             {/*Se redirigira a la pagina cuando se quiera acceder a algo que no*/}
             <Route path="*" element={<Error />} />
           </Routes>
