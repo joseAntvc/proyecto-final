@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
   // Función para iniciar sesión
   const login = (data) => {
-    localStorage.setItem('user', data);
+    localStorage.setItem('user', JSON.stringify(data));
     setIsLogIn(true);
   };
 

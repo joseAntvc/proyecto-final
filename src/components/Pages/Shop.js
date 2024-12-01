@@ -6,37 +6,60 @@ import Spinner from '../elements/Spinner'
 import { CartContext } from '../../context/CartContext';
 
 function Shop() {
+    const [errorMessage, setErrorMessage] = useState("");
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [loadingC, setLoadingC] = useState(true);
+    const [searchKeyword, setSearchKeyword] = useState("");
     const itemsForPage = 15;
     const { carrito, hadleAgregar } = useContext(CartContext);
 
     useEffect(() => {
-        const fetchProductsAndCategories = async () => {
+        const fetchCategories = async () => {
+            setLoadingC(true);
+            try {
+                const categoriesResponse = await axios.get('http://localhost:3000/api/categories/count');
+                setCategories(categoriesResponse.data.categories);
+                setTotal(categoriesResponse.data.total);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            } finally {
+                setLoadingC(false);
+            }
+        };
+        fetchCategories();
+    }, []);//Para que solo se ejecute una vez, antes lo tenia junto y hacia que se ejecutara mas veces
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setLoading(true);
+            setErrorMessage("");
             try {
                 let productsUrl = selectedCategory
                     ? `http://localhost:3000/api/products/category/${selectedCategory._id}` : 'http://localhost:3000/api/products';
 
-                const [productsResponse, categoriesResponse] = await Promise.all([
-                    axios.get(productsUrl),
-                    axios.get('http://localhost:3000/api/categories/count')
-                ]);
+                if (searchKeyword) {
+                    productsUrl += `/search?name=${searchKeyword}`;  // Agregar el término de búsqueda
+                }
+                const productsResponse = await axios.get(productsUrl);
+
                 setProducts(productsResponse.data);
-                setCategories(categoriesResponse.data.categories);
-                setTotal(categoriesResponse.data.total);
             } catch (error) {
-                console.error('Error fetching productos:', error);
+                if (error.response) {
+                    setErrorMessage(error.response.data);
+                    setProducts([]); // Limpiar productos si no se encontraron
+                }
             } finally {
                 setLoading(false); // Ocultar spinner una vez que se haya terminado de cargar
             }
         };
 
-        fetchProductsAndCategories();
-    }, [selectedCategory]);
+        fetchProducts();
+    }, [selectedCategory, searchKeyword]);
 
     const indexOfLastItem = currentPage * itemsForPage; //Es el indice del ultimo producto
     const indexOfFirstItem = indexOfLastItem - itemsForPage; //Para ver el primer indice, podria ser 0 - 11 o asi
@@ -61,6 +84,10 @@ function Shop() {
         setCurrentPage(1);  // Resetear la página al cambiar de categoría
     };
 
+    const handleSearchChange = (event) => {
+        setSearchKeyword(event.target.value);  // Actualiza el estado de la búsqueda
+    };
+
     useEffect(() => {
         const productItems = document.querySelectorAll('.fade-in');
         productItems.forEach((item) => {
@@ -68,7 +95,7 @@ function Shop() {
         });
     }, [currentProducts]);
 
-    const getQuantityCart = (id) =>{
+    const getQuantityCart = (id) => {
         const produCart = carrito.find(item => item.product._id === id);
         return produCart ? produCart.quantity : 0;
     }
@@ -81,22 +108,26 @@ function Shop() {
                     <h1 className="mb-4">Productos</h1>
                     <div className="row g-4">
                         <div className="col-lg-12">
-                            <div className="row g-4">
+                            <div className="row g-4 py-3">
                                 <div className="col-xl-3">
                                     <div className="input-group w-100 mx-auto d-flex">
-                                        <input type="search" className="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1" />
-                                        <span id="search-icon-1" className="input-group-text p-3"><i className="fa fa-search"></i></span>
+                                        <input type="search" className="form-control p-3" placeholder="Buscar por nombre" aria-describedby="search-icon-1"
+                                            value={searchKeyword}
+                                            onChange={handleSearchChange}
+                                        />
                                     </div>
                                 </div>
                                 <div className="col-6"></div>
                                 <div className="col-xl-3">
-                                    <div className="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                        <label htmlFor="fruits">Ordenacion: </label>
-                                        <select id="fruits" name="fruitlist" className="border-0 form-select-sm bg-light me-3" form="fruitform">
-                                            <option value="lower">Menor precio</option>
-                                            <option value="higher">Mayor precio</option>
-                                        </select>
-                                    </div>
+                                    {products.length > 0 ? (
+                                        <div className="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                                            <label htmlFor="fruits">Ordenacion: </label>
+                                            <select id="fruits" name="fruitlist" className="border-0 form-select-sm bg-light me-3" form="fruitform">
+                                                <option value="lower">Menor precio</option>
+                                                <option value="higher">Mayor precio</option>
+                                            </select>
+                                        </div>
+                                    ) : ""}
                                 </div>
                             </div>
                             <div className="row g-4">
@@ -105,7 +136,7 @@ function Shop() {
                                         <div className="col-lg-12">
                                             <div className="mb-3">
                                                 <h4>Categorias</h4>
-                                                {loading ? (
+                                                {loadingC ? (
                                                     <Spinner />
                                                 ) : (
                                                     <ul className="list-unstyled fruite-categorie fade-in">
@@ -140,55 +171,70 @@ function Shop() {
                                         <Spinner />
                                     ) : (
                                         <div className="row g-4 justify-content-center">
-                                            {currentProducts.map((product) => (
-                                                <div className="col-md-6 col-lg-6 col-xl-4 fade-in" key={product._id} style={{ maxHeight: '500px' }} >
-                                                    <div className="rounded position-relative fruite-item">
-                                                        <div className="fruite-img">
-                                                            <img src={"img/" + product.images[0]} className="img-fluid rounded-top" alt={product.name} />
-                                                        </div>
-                                                        <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: '10px', left: '10px' }}>{product.category.name}</div>
-                                                        <div className="p-4 border border-secondary border-top-0 rounded-bottom text-product">
-                                                            <h4>{product.name}</h4>
-                                                            <div className="d-flex justify-content-between flex-lg-wrap align-items-center">
-                                                                <p className="text-dark fs-5 fw-bold mb-0">${product.price.toLocaleString()}</p>
-                                                                <div className='d-flex gap-2'>
-                                                                    <Link to={`/shop_details/${product._id}`} className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-search text-primary"></i></Link>
-                                                                    <Link to="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-list text-primary"></i></Link>
-                                                                    <button onClick={() => { hadleAgregar(product, 1)}} disabled={ product.stock === 0 || getQuantityCart(product._id) === product.stock} 
-                                                                    className={`btn border border-secondary rounded-pill px-3 text-primary ${ product.stock === 0 || getQuantityCart(product._id) === product.stock ? 'btn-disabled' : ''}`}>
-                                                                    <i className="fa fa-shopping-bag text-primary"></i></button>
+                                            {products.length > 0 ? (
+                                                currentProducts.map((product) => (
+                                                    <div className="col-md-6 col-lg-6 col-xl-4 fade-in" key={product._id} style={{ maxHeight: '500px' }} >
+                                                        <div className="rounded position-relative fruite-item">
+                                                            <div className="fruite-img">
+                                                                <img src={"img/" + product.images[0]} className="img-fluid rounded-top" alt={product.name} />
+                                                            </div>
+                                                            <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: '10px', left: '10px' }}>{product.category.name}</div>
+                                                            <div className="p-4 border border-secondary border-top-0 rounded-bottom text-product">
+                                                                <h4>{product.name}</h4>
+                                                                <div className="d-flex justify-content-between flex-lg-wrap align-items-center">
+                                                                    <p className="text-dark fs-5 fw-bold mb-0">${product.price.toLocaleString()}</p>
+                                                                    <div className='d-flex gap-2'>
+                                                                        <Link to={`/shop_details/${product._id}`} className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-search text-primary"></i></Link>
+                                                                        <Link to="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-list text-primary"></i></Link>
+                                                                        <button onClick={() => { hadleAgregar(product, 1) }} disabled={product.stock === 0 || getQuantityCart(product._id) === product.stock}
+                                                                            className={`btn border border-secondary rounded-pill px-3 text-primary ${product.stock === 0 || getQuantityCart(product._id) === product.stock ? 'btn-disabled' : ''}`}>
+                                                                            <i className="fa fa-shopping-bag text-primary"></i></button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            ))}
-                                            <div className="col-12">
-                                                <div className="pagination d-flex justify-content-center mt-5">
-                                                    {/* Se declara la flecha para ir hacia atras */}
-                                                    <Link to="#" className="rounded" onClick={(e) => {
-                                                        e.preventDefault();
-                                                        if (currentPage > 1) paginate(currentPage - 1);
-                                                    }}>
-                                                        &laquo;
-                                                    </Link>
-                                                    {[...Array(totalPages)].map((_, index) => (
-                                                        <Link to="#" key={index} className={`rounded ${currentPage === index + 1 ? 'active' : ''}`} onClick={(e) => {
+                                                ))) :
+                                                <div className="container-fluid m-0 p-0">
+                                                    <div className="container text-center">
+                                                        <div className="row justify-content-center">
+                                                            <div className="col-lg-6">
+                                                                <i className="bi bi-exclamation-triangle display-1 text-secondary"></i>
+                                                                <h1 className="mb-4">{errorMessage}</h1>
+                                                                <p className="mb-4">Lo sentimos, limpia el buscador o selecciona de nuevo la ventana de shop</p>
+                                                                <button className="btn border-secondary rounded-pill py-3 px-5" onClick={() => setSearchKeyword("")}>Regresar shop</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>}
+                                            {products.length > 0 ? (
+                                                <div className="col-12">
+                                                    <div className="pagination d-flex justify-content-center mt-5">
+                                                        {/* Se declara la flecha para ir hacia atras */}
+                                                        <Link to="#" className="rounded" onClick={(e) => {
                                                             e.preventDefault();
-                                                            paginate(index + 1);
-                                                        }} >
-                                                            {index + 1}
+                                                            if (currentPage > 1) paginate(currentPage - 1);
+                                                        }}>
+                                                            &laquo;
                                                         </Link>
-                                                    ))}
-                                                    {/* Se declara la flecha para ir hacia delante */}
-                                                    <Link to="#" className="rounded" onClick={(e) => {
-                                                        e.preventDefault();
-                                                        if (currentPage < totalPages) paginate(currentPage + 1);
-                                                    }}>
-                                                        &raquo;
-                                                    </Link>
+                                                        {[...Array(totalPages)].map((_, index) => (
+                                                            <Link to="#" key={index} className={`rounded ${currentPage === index + 1 ? 'active' : ''}`} onClick={(e) => {
+                                                                e.preventDefault();
+                                                                paginate(index + 1);
+                                                            }} >
+                                                                {index + 1}
+                                                            </Link>
+                                                        ))}
+                                                        {/* Se declara la flecha para ir hacia delante */}
+                                                        <Link to="#" className="rounded" onClick={(e) => {
+                                                            e.preventDefault();
+                                                            if (currentPage < totalPages) paginate(currentPage + 1);
+                                                        }}>
+                                                            &raquo;
+                                                        </Link>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            ) : ""}
                                         </div>
                                     )}
                                 </div>

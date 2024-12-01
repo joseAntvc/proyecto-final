@@ -68,6 +68,9 @@ function Header() {
                                                 <Link className="dropdown-item" to="/profile">
                                                     Mi perfil
                                                 </Link>
+                                                <Link className="dropdown-item" to="/public">
+                                                    Mis poductos
+                                                </Link>
                                                 <Link className="dropdown-item" to="/settings">
                                                     Configuración
                                                 </Link>

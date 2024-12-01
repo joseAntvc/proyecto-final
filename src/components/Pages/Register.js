@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Page from '../elements/Page'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function Register() {
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const validate = (data) => {
         const errorMessages = [];
@@ -62,7 +64,7 @@ export default function Register() {
             .then((response) => {
                 if (response.status === 200) {
                     // Éxito en el registro
-                    localStorage.setItem('userToken', response.data.token);
+                    login(response.data)
                     e.target.reset();
                     toast.success("¡Usuario registrado con éxito!");
                     navigate('/');

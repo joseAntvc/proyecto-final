@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Page from '../elements/Page';
-import ToastNotification from '../elements/ToastNotification';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateProduct() {
     const [categories, setCategories] = useState([]);
-    
+    const { isLogIn } = useContext(AuthContext);
+    const navigate = useNavigate();
+
     useEffect(() => {
-        axios.get('http://localhost:3000/api/categories')
-            .then(response => setCategories(response.data))
-            .catch(error => toast.error('Error al cargar categorías.'));
-    }, []);
+        if (!isLogIn) {
+            navigate('/error');
+        } else {
+            axios.get('http://localhost:3000/api/categories')
+                .then(response => setCategories(response.data))
+                .catch(error => toast.error('Error al cargar categorías.'));
+        }
+    }, [isLogIn, navigate]);
 
     const validate = (data) => {
         const errorMessages = [];
@@ -76,21 +83,21 @@ export default function CreateProduct() {
                     <div className="row justify-content-center">
                         <div className="col-lg-6 bg-light rounded p-5">
                             <h1 className="mb-4">Publicar Producto</h1>
-                            <form onSubmit={handleSubmit} className="w-75">
+                            <form onSubmit={handleSubmit} className="mx-auto w-75">
                                 <input name='name' type="text" className='form-control border-0 py-3 mb-4' placeholder="Nombre del producto" />
                                 <textarea name='description' className='form-control border-0 py-3 mb-4' placeholder="Descripción del producto"></textarea>
                                 <input name='price' type="number" className='form-control border-0 py-3 mb-4' placeholder="Precio" />
                                 <input name='stock' type="number" className='form-control border-0 py-3 mb-4' placeholder="Stock" />
                                 <input name='size' type="text" className='form-control border-0 py-3 mb-4' placeholder="Tamaño" />
                                 <input name='color' type="text" className='form-control border-0 py-3 mb-4' placeholder="Color" />
-                                <select name='gender' className='form-control border-0 py-3 mb-4'>
+                                <select name='gender' className='form-control border-0 py-3 mb-4 bg-white'>
                                     <option value="">Seleccionar género</option>
                                     <option value="Hombre">Hombre</option>
                                     <option value="Mujer">Mujer</option>
                                     <option value="Unisex">Unisex</option>
                                 </select>
-                                <input name='image' type="file" className='form-control border-0 py-3 mb-4' />
-                                <select name='category' className='form-control border-0 py-3 mb-4'>
+                                <input name='image' type="file" className='form-control border-0 py-3 mb-4 bg-white' />
+                                <select name='category' className='form-control border-0 py-3 mb-4 bg-white'>
                                     <option value="">Seleccionar categoría</option>
                                     {categories.map(category => (
                                         <option key={category._id} value={category._id}>{category.name}</option>
@@ -102,7 +109,6 @@ export default function CreateProduct() {
                     </div>
                 </div>
             </div>
-            <ToastNotification />
         </div>
     );
 }

@@ -9,6 +9,7 @@ function Cart() {
     const { carrito, priceTotal, hadleBorrar, handleSum, handleRest } = useContext(CartContext);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         setLoading(false);
     }, []);
 
