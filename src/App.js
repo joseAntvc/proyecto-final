@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; //Par
 //Layouts componentes
 import Header from "./components/layouts/Header"; //Componente de la barra de navegacion
 import Footer from "./components/layouts/Footer"; //Componente de la 
+import ToastNotificaction from './components/elements/ToastNotification' //Los mensajes
 //Componentes de la vista
 import Index from "./components/Pages/Index";
 import Shop from "./components/Pages/Shop";
@@ -15,30 +16,38 @@ import Login from "./components/Pages/Login"
 import Register from "./components/Pages/Register"
 import Testimonial from "./components/Pages/Testimonial"
 import MyAddress from "./components/Pages/MyAddress";
+import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
+
 
 function App() {
 
   return (
-    <Router>
-      <Header />
-      <main>
-          <Routes>
-            <Route path="/" element={<Index />} /> {/* Ruta principal*/}
-            <Route path="/shop" element={<Shop />} /> {/*Ruta de productos*/}
-            <Route path="/shop_details/:id" element={<ShopDetails />} /> {/*Detalle de los productos*/}
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/testimonial" element={<Testimonial />} />
-            <Route path="/address" element={<MyAddress />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            {/*Se redirigira a la pagina cuando se quiera acceder a algo que no*/}
-            <Route path="*" element={<Error />} />
-          </Routes>
-      </main>
-      <Footer />
-    </Router>
+    <>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Index />} /> {/* Ruta principal*/}
+              <Route path="/shop" element={<Shop />} /> {/*Ruta de productos*/}
+              <Route path="/shop_details/:id" element={<ShopDetails />} /> {/*Detalle de los productos*/}
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/testimonial" element={<Testimonial />} />
+              <Route path="/address" element={<MyAddress />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              {/*Se redirigira a la pagina cuando se quiera acceder a algo que no*/}
+              <Route path="*" element={<Error />} />
+            </Routes>
+            <ToastNotificaction />
+            <Footer />
+          </Router>
+        </CartProvider>
+      </AuthProvider>
+    </>
   );
 }
 

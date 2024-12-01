@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Page from '../elements/Page';
-import ToastNotificaction from '../elements/ToastNotification'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
 
 function Fomulario() {
+
+    const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
     
     const validate = (data) => {
         const errorMessages = [];
@@ -38,8 +41,10 @@ function Fomulario() {
             .then((response) => {
                 if (response.status === 200) {
                     // Éxito en el registro
+                    login(response.data)
                     e.target.reset();
                     toast.success("¡Se a iniciado con éxito!");
+                    navigate('/');
                 }
             })
             .catch((error) => {
@@ -78,7 +83,6 @@ function Fomulario() {
                     </div>
                 </div>
             </div>
-            <ToastNotificaction />
         </div>
     )
 }

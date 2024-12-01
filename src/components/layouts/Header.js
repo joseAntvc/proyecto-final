@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Search from '../elements/Search';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../context/CartContext'
+import { AuthContext } from '../../context/AuthContext'
 
 function Header() {
-    const [isLogIn, setIsLogIn] = useState(false);
+    const { quantityCart } = useContext(CartContext);
+    const { isLogIn, logout } = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
     
     const toggleDropdown = () => {
@@ -39,7 +42,6 @@ function Header() {
                                 <div className="nav-item dropdown">
                                     <Link to="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</Link>
                                     <div className="dropdown-menu m-0 bg-secondary rounded-0">
-                                        <Link to="/cart" className="dropdown-item">Cart</Link>
                                         <Link to="/checkout" className="dropdown-item">Checkout</Link>
                                         <Link to="/testimonial" className="dropdown-item">Testimonial</Link>
                                     </div>
@@ -50,7 +52,7 @@ function Header() {
                                 <button className="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i className="fas fa-search text-primary"></i></button>
                                 <Link to="/cart" className="position-relative me-4 my-auto">
                                     <i className="fa fa-shopping-bag fa-2x"></i>
-                                    <span className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style={{ top: '-5px', left: '15px', height: '20px', minWidth: '20px' }}>3</span>
+                                    <span className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style={{ top: '-5px', left: '15px', height: '20px', minWidth: '20px' }}>{quantityCart()}</span>
                                 </Link>
                                 {isLogIn ? (
                                     <div className="dropdown" onMouseLeave={() => setIsOpen(false)}>
@@ -72,7 +74,7 @@ function Header() {
                                                 <Link className="dropdown-item" to="/address">
                                                     Mis Direcciones
                                                 </Link>
-                                                <button className="dropdown-item" onClick={() => alert("Cerrar sesión")}>
+                                                <button className="dropdown-item" onClick={logout}>
                                                     Cerrar sesión
                                                 </button>
                                             </div>

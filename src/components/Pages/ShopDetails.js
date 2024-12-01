@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Page from '../elements/Page'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import Spinner from '../elements/Spinner';
+import { CartContext } from '../../context/CartContext';
 
 function ShopDetails() {
     const { id } = useParams();
+    const { carrito, hadleAgregar } = useContext(CartContext);
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [quantity, setQuantity] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const fetchProduct = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/api/products/detail/${id}`);
@@ -24,6 +28,30 @@ function ShopDetails() {
 
         fetchProduct();
     }, [id, navigate]);
+
+
+    useEffect(() => {
+        if (product) {
+            // Busca si el producto ya está en el carrito
+            const produCart = carrito.find(item => item.product._id === product._id);
+            
+            // Establecer la cantidad inicial
+            const initialQuantity = product?.stock === 0
+                ? 0
+                : (produCart && produCart.quantity === product?.stock ? 0 : 1);
+            setQuantity(initialQuantity); // Establecer la cantidad
+        }
+    }, [product, carrito]);
+    
+
+    const handleRest = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
+    };
+
+    const handleSum = () => {
+        const produCart = carrito.find(item => item.product._id === product._id);
+        if (product && quantity < (product.stock - (produCart ? produCart.quantity : 0))) setQuantity(quantity + 1);
+    };
 
     return (
         <div>
@@ -44,29 +72,65 @@ function ShopDetails() {
                                     <div className="col-lg-6">
                                         <h4 className="fw-bold mb-3">{product.name}</h4>
                                         <p className="mb-3">Categoria: {product.category.name}</p>
-                                        <h5 className="fw-bold mb-3">$ {product.price}</h5>
-                                        {/*<div className="d-flex mb-4">
-                                            <i className="fa fa-star text-secondary"></i>
-                                            <i className="fa fa-star text-secondary"></i>
-                                            <i className="fa fa-star text-secondary"></i>
-                                            <i className="fa fa-star text-secondary"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>*/}
-                                        <p className="my-4">{product.description}</p>
+                                        <h5 className="fw-bold mb-3">$ {product.price.toLocaleString()}</h5>
+                                        <p className="my-2">{product.description}</p>
+                                        <div className="my-4 mx-2">
+                                            <div className="row bg-light align-items-center text-center justify-content-center py-2">
+                                                <div className="col-6">
+                                                    <p className="mb-0">Tamaño</p>
+                                                </div>
+                                                <div className="col-6">
+                                                    <p className="mb-0">{product.size}</p>
+                                                </div>
+                                            </div>
+                                            <div className="row text-center align-items-center justify-content-center py-2">
+                                                <div className="col-6">
+                                                    <p className="mb-0">Genero</p>
+                                                </div>
+                                                <div className="col-6">
+                                                    <p className="mb-0">{product.gender}</p>
+                                                </div>
+                                            </div>
+                                            <div className="row bg-light text-center align-items-center justify-content-center py-2">
+                                                <div className="col-6">
+                                                    <p className="mb-0">Color</p>
+                                                </div>
+                                                <div className="col-6">
+                                                    <p className="mb-0">{product.color.join(', ')}</p>
+                                                </div>
+                                            </div>
+                                            <div className="row text-center align-items-center justify-content-center py-2">
+                                                <div className="col-6">
+                                                    <p className="mb-0">Disponibilidad</p>
+                                                </div>
+                                                <div className="col-6">
+                                                    <p className="mb-0">{product.stock}</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="input-group quantity mb-5" style={{ width: '100px' }}>
                                             <div className="input-group-btn">
-                                                <button className="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                                <button className="btn btn-sm btn-minus rounded-circle bg-light border"
+                                                    onClick={handleRest} >
                                                     <i className="fa fa-minus"></i>
                                                 </button>
                                             </div>
-                                            <input type="text" className="form-control form-control-sm text-center border-0" value="1" />
+                                            <span className="form-control form-control-sm text-center border-0" style={{ backgroundColor: 'transparent' }}>
+                                                {quantity}
+                                            </span>
                                             <div className="input-group-btn">
-                                                <button className="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                <button className="btn btn-sm btn-plus rounded-circle bg-light border"
+                                                    onClick={handleSum}>
                                                     <i className="fa fa-plus"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <Link to="#" className="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i className="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</Link>
+                                        <button
+                                            className={`btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary ${product.stock === 0 || quantity === 0 ? 'btn-disabled' : ''}`}
+                                            onClick={() => { hadleAgregar(product, quantity) }}
+                                            disabled={product.stock === 0 || quantity === 0}>
+                                            <i className="fa fa-shopping-bag me-2 text-primary"></i>Agregar al carrito
+                                        </button>
                                     </div>
                                 </div>
                             </div>
