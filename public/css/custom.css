@@ -49,3 +49,9 @@
   justify-content: flex-end;
   background-color: #fff; 
 }
+
+.btn-disabled {
+  background-color: #dcdcdc !important; 
+  color: #909090 !important;
+  border-color: #909090 !important; 
+}

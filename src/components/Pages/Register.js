@@ -1,11 +1,11 @@
 import React from 'react'
 import Page from '../elements/Page'
-import ToastNotificaction from '../elements/ToastNotification'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 export default function Register() {
+    const navigate = useNavigate();
 
     const validate = (data) => {
         const errorMessages = [];
@@ -62,8 +62,10 @@ export default function Register() {
             .then((response) => {
                 if (response.status === 200) {
                     // Éxito en el registro
+                    localStorage.setItem('userToken', response.data.token);
                     e.target.reset();
                     toast.success("¡Usuario registrado con éxito!");
+                    navigate('/');
                 }
             })
             .catch((error) => {
@@ -108,7 +110,6 @@ export default function Register() {
                     </div>
                 </div>
             </div>
-            <ToastNotificaction />
         </div>
     )
 }
