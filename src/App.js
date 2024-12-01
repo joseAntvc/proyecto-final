@@ -20,6 +20,8 @@ import CreateProduct from "./components/Pages/PublicProduct";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 
+import UserProfile from "./components/Pages/UserProfile";
+import OrderHistory from "./components/Pages/OrderHistory";
 
 function App() {
   return (
