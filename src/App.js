@@ -16,6 +16,7 @@ import Login from "./components/Pages/Login"
 import Register from "./components/Pages/Register"
 import Testimonial from "./components/Pages/Testimonial"
 import MyAddress from "./components/Pages/MyAddress";
+import CreateProduct from "./components/Pages/PublicProduct";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="/address" element={<MyAddress />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/public" element={<CreateProduct />} />
               {/*Se redirigira a la pagina cuando se quiera acceder a algo que no*/}
               <Route path="*" element={<Error />} />
             </Routes>
