@@ -66,7 +66,7 @@ function ShopDetails() {
                                 <div className="row g-4">
                                     <div className="col-lg-6">
                                         <div className="border rounded d-flex justify-content-center align-items-center" style={{ height: '500px', overflow: 'hidden', position: 'relative' }}>
-                                            <img src={`${process.env.PUBLIC_URL}/img/${product.images[0]}`} className="img-fluid rounded" alt="Imag" style={{ width: 'auto', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+                                            <img src={product.images[0]} className="img-fluid rounded" alt="Imag" style={{ width: 'auto', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
                                         </div>
                                     </div>
                                     <div className="col-lg-6">

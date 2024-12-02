@@ -2,15 +2,37 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import Page from '../elements/Page'
 import Spinner from '../elements/Spinner';
 import { CartContext } from '../../context/CartContext';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 function Cart() {
 
     const [loading, setLoading] = useState(true);
     const { carrito, priceTotal, hadleBorrar, handleSum, handleRest } = useContext(CartContext);
+    const [Desc, setDesc] = useState('');
     const code = useRef('');
 
-    const handleApplyCode = (e) => {
-        
+    const handleApplyCode = async () => {
+        const url = "http://localhost:3000/api/coupon";
+        const data = {
+            code: code.current.value,
+            expiration: new Date().toISOString(),
+        };
+        try {
+            const response = await axios.post(url, data);
+            console.log(response.status)
+            if (response.status === 200) {
+                setDesc(response.data)
+                toast.success("¡Cupón aplicado con éxito!");
+            }
+        } catch (error) {
+            if (error.response) {
+                const errorMessage = error.response.data;
+                toast.error(errorMessage);
+            } else {
+                console.log("Error: No se pudo completar la solicitud.");
+            }
+        }
     }
 
     useEffect(() => {
@@ -45,7 +67,7 @@ function Cart() {
                                     <tr key={item.product._id}>
                                         <th scope="row">
                                             <div className="d-flex align-items-center">
-                                                <img src={`${process.env.PUBLIC_URL}/img/${item.product.images[0]}`} className="img-fluid me-5 rounded-circle" style={{ width: '80px', height: '80px' }} alt="" />
+                                                <img src={item.product.images[0]}className="img-fluid me-5 rounded-circle" style={{ width: '80px', height: '80px' }} alt="" />
                                             </div>
                                         </th>
                                         <td>
@@ -86,7 +108,7 @@ function Cart() {
                     <div className="mt-3 d-flex justify-content-between mx-5">
                         <div className="d-flex align-items-center justify-content-center col-6">
                             <div className="d-flex h-auto w-auto align-items-center justify-content-center bg-light rounded p-5">
-                                <input type="text" className="border-0 border-bottom rounded me-5 p-3" placeholder="Codigo de descuento" 
+                                <input type="text" className="border-0 border-bottom rounded me-5 p-3" placeholder="Codigo de descuento"
                                     ref={code}
                                 />
                                 <button className="btn border-secondary rounded-pill px-4 py-3 text-primary bg-white" type="button"
@@ -105,13 +127,14 @@ function Cart() {
                                     <div className="d-flex justify-content-between">
                                         <h5 className="mb-0 me-4">Descuento</h5>
                                         <div className="">
-                                            <p className="mb-0">0 %</p>
+                                            <p className="mb-0">{ Desc.percentage }%</p>
                                         </div>
                                     </div>
                                 </div>
+                                <p class="mb-0 text-end">Shipping to Ukraine.</p>
                                 <div className="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                     <h5 className="mb-0 ps-4 me-4">Total</h5>
-                                    <p className="mb-0 pe-4">${priceTotal().toLocaleString()}</p>
+                                    <p className="mb-0 pe-4">${(Desc ? ((100 - Desc.percentage)/100 * priceTotal()).toLocaleString() : priceTotal().toLocaleString())}</p>
                                 </div>
                                 <button className="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Procesar a la compra</button>
                             </div>

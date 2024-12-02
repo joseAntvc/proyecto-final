@@ -176,7 +176,7 @@ function Shop() {
                                                     <div className="col-md-6 col-lg-6 col-xl-4 fade-in" key={product._id} style={{ maxHeight: '500px' }} >
                                                         <div className="rounded position-relative fruite-item">
                                                             <div className="fruite-img">
-                                                                <img src={"img/" + product.images[0]} className="img-fluid rounded-top" alt={product.name} />
+                                                                <img src={product.images[0]} className="img-fluid rounded-top" alt={product.name} />
                                                             </div>
                                                             <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: '10px', left: '10px' }}>{product.category.name}</div>
                                                             <div className="p-4 border border-secondary border-top-0 rounded-bottom text-product">
