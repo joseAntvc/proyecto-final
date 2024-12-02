@@ -29,7 +29,8 @@ const AddressForm = () => {
     try {
       setIsLoading(true);
       await axios.delete(`http://localhost:3000/api/users/addresses/${userId}/${addressId}`);
-      setAddresses(addresses.filter(address => address.id !== addressId));
+      // Actualiza el estado eliminando la dirección localmente
+      setAddresses(addresses.filter(address => address._id !== addressId));
     } catch (error) {
       console.error("Error deleting address:", error);
     } finally {
@@ -51,14 +52,14 @@ const AddressForm = () => {
                 <h2>Direcciones Guardadas</h2>
                 {addresses.length > 0 ? (
                   addresses.map((address) => (
-                    <div className="card mb-3" key={address.id}>
+                    <div className="card mb-3" key={address._id}>
                       <p><strong>Calle:</strong> {address.street}</p>
                       <p><strong>Ciudad:</strong> {address.city}</p>
                       <p><strong>País:</strong> {address.country}</p>
                       <p><strong>Código Postal:</strong> {address.postal_code}</p>
                       <button
                         className="btn btn-danger"
-                        onClick={() => deleteAddress(address.id)}
+                        onClick={() => deleteAddress(address._id)}
                         disabled={isLoading}
                       >
                         {isLoading ? "Eliminando..." : "Eliminar"}

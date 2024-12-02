@@ -29,7 +29,6 @@ function UserProfile() {
     });
     const [isEditing, setIsEditing] = useState(false); // Estado para controlar la edición
     const [originalData, setOriginalData] = useState(null); // Guarda los datos originales para cancelar
-    const [orderHistory, setOrderHistory] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
