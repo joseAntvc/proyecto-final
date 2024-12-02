@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import Sidebar from './Sidebar';
 
 function UserProfile() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const id = user.id;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const id = user?.id;
     console.log(id);
     const [userData, setUserData] = useState({
         firstName: '',
