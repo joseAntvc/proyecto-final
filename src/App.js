@@ -22,6 +22,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 import UserProfile from "./components/Pages/UserProfile";
 import OrderHistory from "./components/Pages/OrderHistory";
+import UserAddresses from "./components/Pages/UserAddresses"
 
 function App() {
   return (
@@ -42,6 +43,9 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/public" element={<CreateProduct />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/order_history" element={<OrderHistory />} />
+              <Route path="/my_addresses" element={<UserAddresses />} /> {/*Ruta para ver las direcciones del usuario*/}
               {/*Se redirigira a la pagina cuando se quiera acceder a algo que no*/}
               <Route path="*" element={<Error />} />
             </Routes>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext'; //Importar el AuthContext
 import Page from '../elements/Page';
 import axios from 'axios';
 import Spinner from '../elements/Spinner';
@@ -7,12 +8,13 @@ import { toast } from 'react-toastify';
 import Sidebar from './Sidebar';
 
 function UserProfile() {
-    const { id } = useParams(); // Extrae el parámetro 'id' de la URL
+    const id = localStorage.getItem('userId');
+    console.log(id);
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',
         email: '',
-        company: '',
+        username: '',
         phone: '',
         address: {
             street: '',
@@ -33,27 +35,17 @@ function UserProfile() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!id) return; // Verificar si el id está presente
+
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/users/profile/${id}`);
+                const response = await axios.get(`http://localhost:3000/api/users/profile/${id}`);
                 const userDataFromApi = {
                     firstName: response.data.name,
                     lastName: response.data.last_name,
                     email: response.data.email,
-                    company: response.data.billings.company,
+                    username: response.data.username,
                     phone: response.data.phone,
-                    address: {
-                        street: response.data.addresses.street,
-                        city: response.data.addresses.city,
-                        country: response.data.addresses.country,
-                        postalCode: response.data.addresses.postal_code,
-                    },
-                    billing: {
-                        company: response.data.billings.company,
-                        email: response.data.billings.email,
-                        phone: response.data.billings.phone,
-                        address: response.data.billings.address,
-                    },
                 };
                 setUserData(userDataFromApi);
                 setOriginalData(userDataFromApi);
@@ -96,6 +88,8 @@ function UserProfile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!id) return; // Verifica si el id está presente
+
         try {
             const response = await axios.put(`http://localhost:3001/api/users/profile/${id}`, userData);
             if (response.status === 200) {
@@ -166,18 +160,18 @@ function UserProfile() {
                                             </div>
 
                                             <div className="mb-3">
-                                                <label className="form-label"><strong>Nombre</strong></label>
+                                                <label className="form-label"><strong>Username</strong></label>
                                                 {isEditing ? (
                                                     <input
                                                         type="text"
                                                         name="company"
                                                         className="form-control"
-                                                        value={userData.company|| ''}
+                                                        value={userData.username|| ''}
                                                         onChange={handleChange}
                                                         required
                                                     />
                                                 ) : (
-                                                    <p>{userData.company}</p>
+                                                    <p>{userData.username}</p>
                                                 )}
                                             </div>
 
@@ -195,73 +189,6 @@ function UserProfile() {
                                             ) : (
                                                 <p>{userData.phone}</p>
                                             )}
-                                        </div>
-
-                                        <h4>Dirección</h4>
-                                        <div className="mb-3">
-                                            <label className="form-label"><strong>Calle</strong></label>
-                                            {isEditing ? (
-                                                <input
-                                                    type="text"
-                                                    name="address.street"
-                                                    className="form-control"
-                                                    value={userData.address.street}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            ) : (
-                                                <p>{userData.address.street}</p>
-                                            )}
-                                        </div>
-
-                                        <div className="row">
-                                            <div className="col-md-4 mb-3">
-                                                <label className="form-label"><strong>Ciudad</strong></label>
-                                                {isEditing ? (
-                                                    <input
-                                                        type="text"
-                                                        name="address.city"
-                                                        className="form-control"
-                                                        value={userData.address.city}
-                                                        onChange={handleChange}
-                                                        required
-                                                    />
-                                                ) : (
-                                                    <p>{userData.address.city}</p>
-                                                )}
-                                            </div>
-
-                                            <div className="col-md-4 mb-3">
-                                                <label className="form-label"><strong>País</strong></label>
-                                                {isEditing ? (
-                                                    <input
-                                                        type="text"
-                                                        name="address.country"
-                                                        className="form-control"
-                                                        value={userData.address.country}
-                                                        onChange={handleChange}
-                                                        required
-                                                    />
-                                                ) : (
-                                                    <p>{userData.address.country}</p>
-                                                )}
-                                            </div>
-
-                                            <div className="col-md-4 mb-3">
-                                                <label className="form-label"><strong>Código Postal</strong></label>
-                                                {isEditing ? (
-                                                    <input
-                                                        type="text"
-                                                        name="address.postalCode"
-                                                        className="form-control"
-                                                        value={userData.address.postalCode}
-                                                        onChange={handleChange}
-                                                        required
-                                                    />
-                                                ) : (
-                                                    <p>{userData.address.postalCode}</p>
-                                                )}
-                                            </div>
                                         </div>
 
                                         <div className="mt-4">
@@ -290,38 +217,6 @@ function UserProfile() {
                                             </div>
 
                                         </form>
-                                    </div>
-
-                                    {/* Historial de Pedidos */}
-                                    <div id="orderHistory" className="mb-5">
-                                        <h3>Historial de Pedidos</h3>
-                                        {orderHistory.length > 0 ? (
-                                            <ul>
-                                                {orderHistory.map((order) => (
-                                                    <li key={order._id}>
-                                                        <div className="d-flex justify-content-between">
-                                                            <span>{order.date}</span>
-                                                            <span>{order.totalPrice}</span>
-                                                        </div>
-                                                        <div>
-                                                            {order.products.map((product) => (
-                                                                <div key={product._id}>
-                                                                    <p>{product.name} - {product.quantity} x ${product.price}</p>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <p>No tienes pedidos realizados.</p>
-                                        )}
-                                    </div>
-
-                                    {/* Configuraciones de Cuenta */}
-                                    <div id="accountSettings">
-                                        <h3>Configuraciones de Cuenta</h3>
-                                        <p>Desde aquí puedes cambiar tu información personal y de pago.</p>
                                     </div>
                                 </div>
                             )}

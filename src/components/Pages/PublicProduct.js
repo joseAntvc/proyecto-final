@@ -2,11 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import Page from '../elements/Page';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Sidebar from './Sidebar';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreateProduct() {
     const [categories, setCategories] = useState([]);
+
     const { isLogIn } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -78,33 +80,42 @@ export default function CreateProduct() {
     return (
         <div>
             <Page page="Crear Producto" />
-            <div className="container-fluid py-4">
-                <div className="container text-center">
-                    <div className="row justify-content-center">
-                        <div className="col-lg-6 bg-light rounded p-5">
-                            <h1 className="mb-4">Publicar Producto</h1>
-                            <form onSubmit={handleSubmit} className="mx-auto w-75">
-                                <input name='name' type="text" className='form-control border-0 py-3 mb-4' placeholder="Nombre del producto" />
-                                <textarea name='description' className='form-control border-0 py-3 mb-4' placeholder="Descripción del producto"></textarea>
-                                <input name='price' type="number" className='form-control border-0 py-3 mb-4' placeholder="Precio" />
-                                <input name='stock' type="number" className='form-control border-0 py-3 mb-4' placeholder="Stock" />
-                                <input name='size' type="text" className='form-control border-0 py-3 mb-4' placeholder="Tamaño" />
-                                <input name='color' type="text" className='form-control border-0 py-3 mb-4' placeholder="Color" />
-                                <select name='gender' className='form-control border-0 py-3 mb-4 bg-white'>
-                                    <option value="">Seleccionar género</option>
-                                    <option value="Hombre">Hombre</option>
-                                    <option value="Mujer">Mujer</option>
-                                    <option value="Unisex">Unisex</option>
-                                </select>
-                                <input name='image' type="file" className='form-control border-0 py-3 mb-4 bg-white' />
-                                <select name='category' className='form-control border-0 py-3 mb-4 bg-white'>
-                                    <option value="">Seleccionar categoría</option>
-                                    {categories.map(category => (
-                                        <option key={category._id} value={category._id}>{category.name}</option>
-                                    ))}
-                                </select>
-                                <button type="submit" className="w-50 btn form-control border-secondary py-3 bg-white text-secondary">Publicar Producto</button>
-                            </form>
+            <div className="container-fluid py-5">
+                <div className="container py-5">
+                    <h1 className="mb-4">Publicar Producto</h1>
+                    <div className="row">
+                        {/* Barra lateral en la izquierda */}
+                        <Sidebar />
+
+                        {/* Contenido Principal */}
+                        <div className="col-lg-9">
+                            <div className="container text-center">
+                                <div className="bg-light rounded p-5">
+                                    <h2 className="mb-4">Producto nuevo</h2>
+                                    <form onSubmit={handleSubmit} className="w-75 mx-auto">
+                                        <input name='name' type="text" className='form-control border-0 py-3 mb-4' placeholder="Nombre del producto" />
+                                        <textarea name='description' className='form-control border-0 py-3 mb-4' placeholder="Descripción del producto"></textarea>
+                                        <input name='price' type="number" className='form-control border-0 py-3 mb-4' placeholder="Precio" />
+                                        <input name='stock' type="number" className='form-control border-0 py-3 mb-4' placeholder="Stock" />
+                                        <input name='size' type="text" className='form-control border-0 py-3 mb-4' placeholder="Tamaño" />
+                                        <input name='color' type="text" className='form-control border-0 py-3 mb-4' placeholder="Color" />
+                                        <select name='gender' className='form-control border-0 py-3 mb-4'>
+                                            <option value="">Seleccionar género</option>
+                                            <option value="Hombre">Hombre</option>
+                                            <option value="Mujer">Mujer</option>
+                                            <option value="Unisex">Unisex</option>
+                                        </select>
+                                        <input name='image' type="file" className='form-control border-0 py-3 mb-4' />
+                                        <select name='category' className='form-control border-0 py-3 mb-4'>
+                                            <option value="">Seleccionar categoría</option>
+                                            {categories.map(category => (
+                                                <option key={category._id} value={category._id}>{category.name}</option>
+                                            ))}
+                                        </select>
+                                        <button type="submit" className="w-50 btn form-control border-secondary py-3 bg-white text-secondary">Publicar Producto</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
