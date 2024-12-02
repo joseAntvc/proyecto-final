@@ -14,6 +14,9 @@ function Sidebar() {
                         <Link to="/my_addresses" className="d-block py-2 text-dark">Mis Direcciones</Link>
                     </li>
                     <li>
+                        <Link to="/add_addresses" className="d-block py-2 text-dark">Agregar Direcciones</Link>
+                    </li>
+                    <li>
                         <Link to="/order_history" className="d-block py-2 text-dark">Historial de Pedidos</Link>
                     </li>
                     <li>

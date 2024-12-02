@@ -7,11 +7,17 @@ import Sidebar from './Sidebar';
 function OrderHistory() {
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState([]);
-    const userId = JSON.parse(localStorage.getItem("user")).id;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user ? user.id : null;
 
-    // Cargar órdenes del usuario desde la API
     useEffect(() => {
         const fetchOrders = async () => {
+            if (!userId) {
+                console.error("ID de usuario no encontrado.");
+                setLoading(false);
+                return;
+            }
+
             try {
                 const response = await axios.get(`http://localhost:3000/api/orders/${userId}`);
                 setOrders(response.data);
@@ -47,18 +53,21 @@ function OrderHistory() {
                                                     <div className="card-body">
                                                         <h5 className="card-title text-primary">Orden #{index + 1}</h5>
                                                         <div className="card-text">
-                                                            <strong>Fecha:</strong> {new Date(order.date).toLocaleDateString()}
+                                                            <strong>Fecha:</strong> {order.date ? new Date(order.date).toLocaleDateString() : 'N/A'}
                                                             <br />
                                                             <strong>Total:</strong> $
-                                                            {parseFloat(order.total_amount.$numberDecimal).toFixed(2)}
+                                                            {order.total_amount}
                                                             <hr />
                                                             <h6>Artículos:</h6>
                                                             <ul>
                                                                 {order.items.map((item, idx) => (
                                                                     <li key={idx}>
                                                                         {item.product_name} - {item.quantity} x $
-                                                                        {parseFloat(item.price).toFixed(2)} = $
-                                                                        {(item.quantity * parseFloat(item.price)).toFixed(2)}
+                                                                        {item.price
+                                                                            ? parseFloat(item.price).toFixed(2)
+                                                                            : '0.00'}{' '}
+                                                                        = $
+                                                                        {(item.quantity * parseFloat(item.price || 0)).toFixed(2)}
                                                                     </li>
                                                                 ))}
                                                             </ul>
