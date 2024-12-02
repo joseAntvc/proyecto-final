@@ -102,10 +102,9 @@ function Shop() {
 
     return (
         <div>
-            <Page page="Shop" />
-            <div className="container-fluid fruite py-5">
-                <div className="container py-5">
-                    <h1 className="mb-4">Productos</h1>
+            <Page page="Productos" />
+            <div className="container-fluid fruite py-3">
+                <div className="container py-3">
                     <div className="row g-4">
                         <div className="col-lg-12">
                             <div className="row g-4 py-3">
@@ -142,7 +141,7 @@ function Shop() {
                                                     <ul className="list-unstyled fruite-categorie fade-in">
                                                         <li onClick={() => handleCategorySelect(null)}>
                                                             <div className="d-flex justify-content-between fruite-name">
-                                                                <Link to="#" className={selectedCategory === null ? 'text-warning' : ''}><i className="fa fa-tshirt me-2"></i>All</Link><span>({total})</span>
+                                                                <Link to="#" className={selectedCategory === null ? 'text-warning' : ''}><i className="fa fa-tshirt me-2"></i>Todos</Link><span>({total})</span>
                                                             </div>
                                                         </li>
                                                         {categories.map((category) => (
