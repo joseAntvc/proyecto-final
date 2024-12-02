@@ -135,9 +135,10 @@ function ShopDetails() {
                             </div>
                             <div className="col-lg-4 col-xl-3">
                                 <div className="row g-4 fruite">
+                                    {/** 
                                     <div className="col-lg-12">
                                         <h4 className="mb-4">Featured products</h4>
-                                        {/* Para ver otros productos */}
+                                        {/* Para ver otros productos 
                                         <div className="d-flex align-items-center justify-content-start">
                                             <div className="rounded me-4" style={{ width: '100px', height: '100px' }}>
                                                 <img src="img/vegetable-item-6.jpg" className="img-fluid rounded" alt="" />
@@ -161,6 +162,7 @@ function ShopDetails() {
                                             <Link to="#" className="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</Link>
                                         </div>
                                     </div>
+                                    */}
                                     <div className="col-lg-12">
                                         <div className="position-relative">
                                             <img src={`${process.env.PUBLIC_URL}/img/banner-clothes.png`} className="img-fluid w-100 rounded" alt="" />

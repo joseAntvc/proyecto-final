@@ -56,7 +56,7 @@ function OrderHistory() {
                                                             <strong>Fecha:</strong> {order.date ? new Date(order.date).toLocaleDateString() : 'N/A'}
                                                             <br />
                                                             <strong>Total:</strong> $
-                                                            {order.total_amount}
+                                                            {order.total_amount.toLocaleString()}
                                                             <hr />
                                                             <h6>Artículos:</h6>
                                                             <ul>
@@ -64,10 +64,10 @@ function OrderHistory() {
                                                                     <li key={idx}>
                                                                         {item.product_name} - {item.quantity} x $
                                                                         {item.price
-                                                                            ? parseFloat(item.price).toFixed(2)
+                                                                            ? parseFloat(item.price).toFixed(2).toLocaleString()
                                                                             : '0.00'}{' '}
                                                                         = $
-                                                                        {(item.quantity * parseFloat(item.price || 0)).toFixed(2)}
+                                                                        {(item.quantity * (item.price || 0)).toLocaleString()}
                                                                     </li>
                                                                 ))}
                                                             </ul>

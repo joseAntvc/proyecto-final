@@ -8,12 +8,30 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 function Cart() {
-
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?.id; // Recuperar el ID del usuario desde el localStorage
     const [loading, setLoading] = useState(true);
-    const { carrito, priceTotal, hadleBorrar, handleSum, handleRest, quantityCart } = useContext(CartContext);
+    const [addresses, setAddresses] = useState([]);
+    const { carrito, priceTotal, hadleBorrar, handleSum, handleRest, quantityCart, vaciarCart } = useContext(CartContext);
     const [Desc, setDesc] = useState('');
     const code = useRef('');
     const { isLogIn } = useContext(AuthContext);
+    const [selectedAddress, setSelectedAddress] = useState('');
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        setLoading(false);
+        const fetchAddresses = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/api/users/addresses/${userId}`);
+                setAddresses(response.data);
+            } catch (error) {
+                console.error("Error fetching addresses:", error);
+            }
+        };
+        fetchAddresses();
+    }, []);
 
     const handleApplyCode = async () => {
         const url = "http://localhost:3000/api/coupon";
@@ -39,11 +57,36 @@ function Cart() {
         }
     }
 
-    useEffect(() => {
-        // window.scrollTo(0, 0);
-        setLoading(false);
-    }, []);
-
+    const handleBuy = async () => {
+    
+        const orderData = {
+            user: userId, // ID del usuario
+            shipping_address: selectedAddress, // Dirección seleccionada
+            items: carrito.map((item) => ({
+                product: item.product._id, // ID del producto
+                quantity: item.quantity,
+                price: item.product.price, // Asegúrate de que el precio sea del tipo esperado
+            })),
+            total_amount: Desc
+                ? ((100 - Desc.percentage) / 100 * priceTotal()).toFixed(2)
+                : priceTotal().toFixed(2),
+            coupons: Desc ? [Desc._id] : [], // Si hay un cupón, incluirlo
+            date: new Date().toISOString(), // Fecha de la orden
+        };
+    
+        try {
+            const response = await axios.post('http://localhost:3000/api/orders', orderData);
+            if (response.status === 200) {
+                vaciarCart()
+                toast.success("¡Compra realizada con éxito!");
+                // Aquí puedes redirigir o limpiar el carrito después de la compra
+            }
+        } catch (error) {
+            console.error("Error al guardar la orden:", error);
+            toast.error("Hubo un problema al procesar tu compra.");
+        }
+    };
+    
     return (
         <div>
             <Page page="Cart" />
@@ -115,7 +158,7 @@ function Cart() {
                                 <div className="d-flex flex-column gap-4 h-auto w-auto align-items-center justify-content-center bg-light rounded p-5">
                                     {
                                         !isLogIn ? (
-                                            <div class="alert alert-danger" role="alert">
+                                            <div className="alert alert-danger" role="alert">
                                                 Los botones estan bloqueados, necesitas <Link to="/login">iniciar sesion</Link>
                                             </div>) : ''
                                     }
@@ -127,9 +170,22 @@ function Cart() {
                                             onClick={handleApplyCode}
                                         >Aplicar</button>
                                     </div>
-                                    <select name='gender' className={`form-control border-0 py-3 bg-white ${(!isLogIn) ? 'btn-disabled' : ''}`} disabled={!isLogIn}>
-                                        <option value="">Seleccionar dirección</option>
-                                    </select>
+                                    {addresses.length === 0 ? (
+                                        <div className="alert alert-dark" role="alert">
+                                            No tienes niguna direccion, <Link to="/add_addresses" className='text-dark fw-bold'>registrar direccion</Link>
+                                        </div>
+                                    ) : (
+                                        <select name='gender' className={`form-control border-0 py-3 bg-white ${(!isLogIn) ? 'btn-disabled' : ''}`} disabled={!isLogIn}
+                                            value={selectedAddress}
+                                            onChange={(e) => setSelectedAddress(e.target.value)}>
+                                            <option value="">Seleccionar dirección</option>
+                                            {addresses.map((address) => (
+                                                <option key={address._id} value={address._id}>
+                                                    {address.street}, {address.city} - {address.country}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )}
                                 </div>
                             </div>
                             <div className="col-sm-8 col-md-7 col-lg-6 col-xl-4">
@@ -152,7 +208,10 @@ function Cart() {
                                         <h5 className="mb-0 ps-4 me-4">Total</h5>
                                         <p className="mb-0 pe-4">${(Desc ? ((100 - Desc.percentage) / 100 * priceTotal()).toLocaleString() : priceTotal().toLocaleString())}</p>
                                     </div>
-                                    <button className={`btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4 ${(!isLogIn) ? 'btn-disabled' : ''}`} type="button" disabled={!isLogIn} >Procesar a la compra</button>
+                                    <button className={`btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4 ${(!isLogIn || selectedAddress === '') ? 'btn-disabled' : ''}`} 
+                                        type="button" disabled={!isLogIn} 
+                                        onClick={handleBuy}
+                                        >Procesar compra</button>
                                 </div>
                             </div>
                         </div>

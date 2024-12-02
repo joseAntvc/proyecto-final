@@ -38,13 +38,6 @@ function Header() {
                             <div className="navbar-nav mx-auto">
                                 <Link to="/" className="nav-item nav-link active">Inicio</Link>
                                 <Link to="/shop" className="nav-item nav-link">Productos</Link>
-                                <div className="nav-item dropdown">
-                                    <Link to="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</Link>
-                                    <div className="dropdown-menu m-0 bg-secondary rounded-0">
-                                        <Link to="/checkout" className="dropdown-item">Checkout</Link>
-                                        <Link to="/testimonial" className="dropdown-item">Testimonial</Link>
-                                    </div>
-                                </div>
                                 <Link to="/contact" className="nav-item nav-link">Contact</Link>
                             </div>
                             <div className="d-flex m-3 me-0">
@@ -66,13 +59,10 @@ function Header() {
                                                 <Link className="dropdown-item" to="/profile">
                                                     Mi perfil
                                                 </Link>
-                                                <Link className="dropdown-item" to="/public">
+                                                <Link className="dropdown-item" to="/my_products">
                                                     Mis poductos
                                                 </Link>
-                                                <Link className="dropdown-item" to="/settings">
-                                                    Configuración
-                                                </Link>
-                                                <Link className="dropdown-item" to="/address">
+                                                <Link className="dropdown-item" to="/my_addresses">
                                                     Mis Direcciones
                                                 </Link>
                                                 <button className="dropdown-item" onClick={logout}>
