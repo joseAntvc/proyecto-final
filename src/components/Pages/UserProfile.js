@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext'; //Importar el AuthContext
 import Page from '../elements/Page';
 import axios from 'axios';
 import Spinner from '../elements/Spinner';
@@ -110,7 +108,7 @@ function UserProfile() {
 
     return (
         <div>
-            <Page page="User Profile" />
+            <Page page="Perfil del usuario" />
             <div className="container-fluid py-5">
                 <div className="container py-5">
                     <h1 className="mb-4">Perfil del Usuario</h1>

@@ -127,11 +127,11 @@ function Cart() {
                                     <div className="d-flex justify-content-between">
                                         <h5 className="mb-0 me-4">Descuento</h5>
                                         <div className="">
-                                            <p className="mb-0">{ Desc.percentage }%</p>
+                                            <p className="mb-0">{ Desc ? Desc.percentage : 0 }%</p>
                                         </div>
                                     </div>
+                                    <p class="mb-0 text-end">{(Desc ? '-$' +((Desc.percentage)/100 * priceTotal()).toLocaleString() : '')}</p>
                                 </div>
-                                <p class="mb-0 text-end">Shipping to Ukraine.</p>
                                 <div className="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                     <h5 className="mb-0 ps-4 me-4">Total</h5>
                                     <p className="mb-0 pe-4">${(Desc ? ((100 - Desc.percentage)/100 * priceTotal()).toLocaleString() : priceTotal().toLocaleString())}</p>

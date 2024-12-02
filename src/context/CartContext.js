@@ -9,7 +9,6 @@ const carritoInicial = JSON.parse(localStorage.getItem("carrito")) || [];
 export const CartProvider = ({children}) => {
     const [carrito, setCarrito] = useState(carritoInicial);
 
-
     const hadleAgregar = (product, quantity) => {
         if (quantity !== 0) {
             const item = { product, quantity }

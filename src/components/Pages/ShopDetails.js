@@ -25,7 +25,6 @@ function ShopDetails() {
                 setLoading(false);
             }
         };
-
         fetchProduct();
     }, [id, navigate]);
 
@@ -55,7 +54,7 @@ function ShopDetails() {
 
     return (
         <div>
-            <Page page="Shop Details" />
+            <Page page="Detalles del producto" />
             {loading ? (
                 <Spinner />
             ) : (
