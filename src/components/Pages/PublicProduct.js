@@ -1,26 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Page from '../elements/Page';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Sidebar from './Sidebar';
-import { AuthContext } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function CreateProduct() {
     const [categories, setCategories] = useState([]);
 
-    const { isLogIn } = useContext(AuthContext);
-    const navigate = useNavigate();
-
     useEffect(() => {
-        if (!isLogIn) {
-            navigate('/error');
-        } else {
-            axios.get('http://localhost:3000/api/categories')
-                .then(response => setCategories(response.data))
-                .catch(error => toast.error('Error al cargar categorías.'));
-        }
-    }, [isLogIn, navigate]);
+        axios.get('http://localhost:3000/api/categories')
+            .then(response => setCategories(response.data))
+            .catch(error => toast.error('Error al cargar categorías.'));
+    }, []);
 
     const validate = (data) => {
         const errorMessages = [];
@@ -63,7 +54,7 @@ export default function CreateProduct() {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === 200 || response.status === 201) {
                     e.target.reset();
                     toast.success("¡Producto creado con éxito!");
                 }
@@ -99,14 +90,14 @@ export default function CreateProduct() {
                                         <input name='stock' type="number" className='form-control border-0 py-3 mb-4' placeholder="Stock" />
                                         <input name='size' type="text" className='form-control border-0 py-3 mb-4' placeholder="Tamaño" />
                                         <input name='color' type="text" className='form-control border-0 py-3 mb-4' placeholder="Color" />
-                                        <select name='gender' className='form-control border-0 py-3 mb-4'>
+                                        <select name='gender' className='form-control border-0 py-3 mb-4 bg-white'>
                                             <option value="">Seleccionar género</option>
                                             <option value="Hombre">Hombre</option>
                                             <option value="Mujer">Mujer</option>
                                             <option value="Unisex">Unisex</option>
                                         </select>
-                                        <input name='image' type="file" className='form-control border-0 py-3 mb-4' />
-                                        <select name='category' className='form-control border-0 py-3 mb-4'>
+                                        <input name='image' type="file" className='form-control border-0 py-3 mb-4 bg-white' />
+                                        <select name='category' className='form-control border-0 py-3 mb-4 bg-white'>
                                             <option value="">Seleccionar categoría</option>
                                             {categories.map(category => (
                                                 <option key={category._id} value={category._id}>{category.name}</option>
