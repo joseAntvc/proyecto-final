@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "./Sidebar"; // Importa tu componente de Sidebar
 import ToastNotification from '../elements/ToastNotification';
-import { toast } from 'react-toastify';
 import Page from '../elements/Page';
 
 
