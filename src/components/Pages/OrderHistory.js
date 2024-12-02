@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 function OrderHistory() {
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState([]);
-    const userId = "674cefdbf6660b8fff3cc2a4"; // Reemplaza con un ID dinámico si es necesario
+    const userId = JSON.parse(localStorage.getItem("user")).id;
 
     // Cargar órdenes del usuario desde la API
     useEffect(() => {
@@ -46,7 +46,7 @@ function OrderHistory() {
                                                 <div className="card shadow-sm">
                                                     <div className="card-body">
                                                         <h5 className="card-title text-primary">Orden #{index + 1}</h5>
-                                                        <p className="card-text">
+                                                        <div className="card-text">
                                                             <strong>Fecha:</strong> {new Date(order.date).toLocaleDateString()}
                                                             <br />
                                                             <strong>Total:</strong> $
@@ -62,7 +62,7 @@ function OrderHistory() {
                                                                     </li>
                                                                 ))}
                                                             </ul>
-                                                        </p>
+                                                        </div>
                                                         <div className="d-flex justify-content-between">
                                                             <button className="btn btn-outline-primary btn-sm">Ver Detalles</button>
                                                         </div>

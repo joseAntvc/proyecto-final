@@ -184,7 +184,6 @@ function Shop() {
                                                                     <p className="text-dark fs-5 fw-bold mb-0">${product.price.toLocaleString()}</p>
                                                                     <div className='d-flex gap-2'>
                                                                         <Link to={`/shop_details/${product._id}`} className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-search text-primary"></i></Link>
-                                                                        <Link to="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-list text-primary"></i></Link>
                                                                         <button onClick={() => { hadleAgregar(product, 1) }} disabled={product.stock === 0 || getQuantityCart(product._id) === product.stock}
                                                                             className={`btn border border-secondary rounded-pill px-3 text-primary ${product.stock === 0 || getQuantityCart(product._id) === product.stock ? 'btn-disabled' : ''}`}>
                                                                             <i className="fa fa-shopping-bag text-primary"></i></button>

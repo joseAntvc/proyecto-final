@@ -17,7 +17,7 @@ function Sidebar() {
                         <Link to="/order_history" className="d-block py-2 text-dark">Historial de Pedidos</Link>
                     </li>
                     <li>
-                        <Link to="/public" className="d-block py-2 text-dark">Mis Productos</Link>
+                        <Link to="/my_products" className="d-block py-2 text-dark">Mis Productos</Link>
                     </li>
                     <li>
                         <Link to="/public" className="d-block py-2 text-dark">Publicar Producto</Link>

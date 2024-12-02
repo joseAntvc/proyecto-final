@@ -7,7 +7,6 @@ import Sidebar from './Sidebar';
 
 function UserProfile() {
     const id = JSON.parse(localStorage.getItem("user")).id;
-    console.log(id);
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',

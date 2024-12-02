@@ -130,7 +130,7 @@ function Cart() {
                                             <p className="mb-0">{ Desc ? Desc.percentage : 0 }%</p>
                                         </div>
                                     </div>
-                                    <p class="mb-0 text-end">{(Desc ? '-$' +((Desc.percentage)/100 * priceTotal()).toLocaleString() : '')}</p>
+                                    <p className="mb-0 text-end">{(Desc ? '-$' +((Desc.percentage)/100 * priceTotal()).toLocaleString() : '')}</p>
                                 </div>
                                 <div className="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                     <h5 className="mb-0 ps-4 me-4">Total</h5>

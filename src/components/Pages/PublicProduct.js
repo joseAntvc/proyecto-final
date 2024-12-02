@@ -32,6 +32,7 @@ export default function CreateProduct() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
+        formData.append("userId", JSON.parse(localStorage.getItem("user")).id);
         formData.append("name", e.target.name.value);
         formData.append("description", e.target.description.value);
         formData.append("price", e.target.price.value);
