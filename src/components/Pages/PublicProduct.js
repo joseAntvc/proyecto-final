@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import {  useNavigate } from "react-router-dom";
 import Page from '../elements/Page';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Sidebar from './Sidebar';
 
 export default function CreateProduct() {
+    const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -32,7 +34,9 @@ export default function CreateProduct() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("userId", JSON.parse(localStorage.getItem("user")).id);
+        const user = JSON.parse(localStorage.getItem("user"));
+        const id = user?.id;
+        formData.append("userId", id);
         formData.append("name", e.target.name.value);
         formData.append("description", e.target.description.value);
         formData.append("price", e.target.price.value);
@@ -58,6 +62,7 @@ export default function CreateProduct() {
                 if (response.status === 200 || response.status === 201) {
                     e.target.reset();
                     toast.success("¡Producto creado con éxito!");
+                    navigate("/my_products");
                 }
             })
             .catch(error => {
