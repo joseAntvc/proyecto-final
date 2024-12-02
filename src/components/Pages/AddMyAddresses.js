@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "./Sidebar"; // Importa tu componente de Sidebar
-import ToastNotification from '../elements/ToastNotification';
 import Page from '../elements/Page';
+import { toast } from "react-toastify";
 
 const AddressForm = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -19,6 +19,7 @@ const AddressForm = () => {
 
   // Obtener lista de países al cargar el componente
   useEffect(() => {
+    window.scrollTo(0, 200);
     const fetchCountries = async () => {
       try {
         const response = await axios.get("https://restcountries.com/v3.1/all");
@@ -48,6 +49,7 @@ const AddressForm = () => {
       });
       setAddresses([...addresses, response.data]); // Agregar la nueva dirección a la lista
       setFormData({ street: "", city: "", country: "", postal_code: "" }); // Limpiar el formulario
+      toast.success("Dirección agregada!");
     } catch (error) {
       console.error("Error adding address:", error);
     } finally {
@@ -135,7 +137,6 @@ const AddressForm = () => {
           </div>
         </div>
       </div>
-      <ToastNotification />
     </div>
   );
 };
