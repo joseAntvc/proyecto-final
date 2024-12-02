@@ -9,23 +9,11 @@ function UserProfile() {
     const user = JSON.parse(localStorage.getItem("user"));
     const id = user?.id;
     const [userData, setUserData] = useState({
-        firstName: '',
-        lastName: '',
+        name: '',
+        last_name: '',
         email: '',
         username: '',
         phone: '',
-        address: {
-            street: '',
-            city: '',
-            country: '',
-            postalCode: '',
-        },
-        billing: {
-            company: '',
-            email: '',
-            phone: '',
-            address: '', // Se guarda el ID de la dirección de facturación
-        }
     });
     const [isEditing, setIsEditing] = useState(false); // Estado para controlar la edición
     const [originalData, setOriginalData] = useState(null); // Guarda los datos originales para cancelar
@@ -38,8 +26,8 @@ function UserProfile() {
             try {
                 const response = await axios.get(`http://localhost:3000/api/users/profile/${id}`);
                 const userDataFromApi = {
-                    firstName: response.data.name,
-                    lastName: response.data.last_name,
+                    name: response.data.name,
+                    last_name: response.data.last_name,
                     email: response.data.email,
                     username: response.data.username,
                     phone: response.data.phone,
@@ -88,7 +76,7 @@ function UserProfile() {
         if (!id) return; // Verifica si el id está presente
 
         try {
-            const response = await axios.put(`http://localhost:3001/api/users/profile/${id}`, userData);
+            const response = await axios.put(`http://localhost:3000/api/users/profile/${id}`, userData);
             if (response.status === 200) {
                 toast.success('Perfil actualizado correctamente.');
                 setIsEditing(false); // Salir del modo edición
@@ -129,14 +117,30 @@ function UserProfile() {
                                                 {isEditing ? (
                                                     <input
                                                         type="text"
-                                                        name="firstName"
+                                                        name="name"
                                                         className="form-control"
-                                                        value={userData.firstName || ''}
+                                                        value={userData.name || ''}
                                                         onChange={handleChange}
                                                         required
                                                     />
                                                 ) : (
-                                                    <p>{userData.firstName} {userData.lastName}</p>
+                                                    <p>{userData.name}</p>
+                                                )}
+                                            </div>
+
+                                            <div className="mb-3">
+                                                <label className="form-label"><strong>Apellido</strong></label>
+                                                {isEditing ? (
+                                                    <input
+                                                        type="text"
+                                                        name="last_name"
+                                                        className="form-control"
+                                                        value={userData.last_name || ''}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                ) : (
+                                                    <p>{userData.last_name}</p>
                                                 )}
                                             </div>
 
@@ -144,7 +148,7 @@ function UserProfile() {
                                                 <label className="form-label"><strong>Correo Electrónico</strong></label>
                                                 {isEditing ? (
                                                     <input
-                                                        type="text"
+                                                        type="email"
                                                         name="email"
                                                         className="form-control"
                                                         value={userData.email || ''}
@@ -161,9 +165,9 @@ function UserProfile() {
                                                 {isEditing ? (
                                                     <input
                                                         type="text"
-                                                        name="company"
+                                                        name="username"
                                                         className="form-control"
-                                                        value={userData.username|| ''}
+                                                        value={userData.username || ''}
                                                         onChange={handleChange}
                                                         required
                                                     />
@@ -173,22 +177,22 @@ function UserProfile() {
                                             </div>
 
                                             <div className="mb-3">
-                                            <label className="form-label"><strong>Teléfono</strong></label>
-                                            {isEditing ? (
-                                                <input
-                                                    type="text"
-                                                    name="phone"
-                                                    className="form-control"
-                                                    value={userData.phone}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            ) : (
-                                                <p>{userData.phone}</p>
-                                            )}
-                                        </div>
+                                                <label className="form-label"><strong>Teléfono</strong></label>
+                                                {isEditing ? (
+                                                    <input
+                                                        type="text"
+                                                        name="phone"
+                                                        className="form-control"
+                                                        value={userData.phone || ''}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                ) : (
+                                                    <p>{userData.phone}</p>
+                                                )}
+                                            </div>
 
-                                        <div className="mt-4">
+                                            <div className="mt-4">
                                                 {!isEditing ? (
                                                     <button
                                                         type="button"
@@ -212,8 +216,8 @@ function UserProfile() {
                                                     </div>
                                                 )}
                                             </div>
-
                                         </form>
+
                                     </div>
                                 </div>
                             )}
