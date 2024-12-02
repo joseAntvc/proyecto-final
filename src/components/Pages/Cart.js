@@ -5,6 +5,7 @@ import { CartContext } from '../../context/CartContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 function Cart() {
 
@@ -12,6 +13,7 @@ function Cart() {
     const { carrito, priceTotal, hadleBorrar, handleSum, handleRest, quantityCart } = useContext(CartContext);
     const [Desc, setDesc] = useState('');
     const code = useRef('');
+    const { isLogIn } = useContext(AuthContext);
 
     const handleApplyCode = async () => {
         const url = "http://localhost:3000/api/coupon";
@@ -38,7 +40,7 @@ function Cart() {
     }
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         setLoading(false);
     }, []);
 
@@ -108,15 +110,26 @@ function Cart() {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="mt-3 d-flex justify-content-between mx-5">
-                            <div className="d-flex align-items-center justify-content-center col-6">
-                                <div className="d-flex h-auto w-auto align-items-center justify-content-center bg-light rounded p-5">
-                                    <input type="text" className="border-0 border-bottom rounded me-5 p-3" placeholder="Codigo de descuento"
-                                        ref={code}
-                                    />
-                                    <button className="btn border-secondary rounded-pill px-4 py-3 text-primary bg-white" type="button"
-                                        onClick={handleApplyCode}
-                                    >Aplicar</button>
+                        <div className="mt-3 d-flex justify-content-between flex-column flex-md-row mx-5">
+                            <div className="d-flex row align-items-center justify-content-center col-12 col-md-6 mb-4 mb-md-0 ">
+                                <div className="d-flex flex-column gap-4 h-auto w-auto align-items-center justify-content-center bg-light rounded p-5">
+                                    {
+                                        !isLogIn ? (
+                                            <div class="alert alert-danger" role="alert">
+                                                Los botones estan bloqueados, necesitas <Link to="/login">iniciar sesion</Link>
+                                            </div>) : ''
+                                    }
+                                    <div className='d-flex'>
+                                        <input type="text" className="border-0 border-bottom rounded me-5 p-3" placeholder="Codigo de descuento"
+                                            ref={code}
+                                        />
+                                        <button className="btn border-secondary rounded-pill px-4 py-3 text-primary bg-white" type="button"
+                                            onClick={handleApplyCode}
+                                        >Aplicar</button>
+                                    </div>
+                                    <select name='gender' className={`form-control border-0 py-3 bg-white ${(!isLogIn) ? 'btn-disabled' : ''}`} disabled={!isLogIn}>
+                                        <option value="">Seleccionar dirección</option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="col-sm-8 col-md-7 col-lg-6 col-xl-4">
@@ -139,7 +152,7 @@ function Cart() {
                                         <h5 className="mb-0 ps-4 me-4">Total</h5>
                                         <p className="mb-0 pe-4">${(Desc ? ((100 - Desc.percentage) / 100 * priceTotal()).toLocaleString() : priceTotal().toLocaleString())}</p>
                                     </div>
-                                    <button className="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Procesar a la compra</button>
+                                    <button className={`btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4 ${(!isLogIn) ? 'btn-disabled' : ''}`} type="button" disabled={!isLogIn} >Procesar a la compra</button>
                                 </div>
                             </div>
                         </div>

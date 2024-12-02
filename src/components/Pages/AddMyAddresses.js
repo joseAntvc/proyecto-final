@@ -47,9 +47,9 @@ const AddressForm = () => {
       const response = await axios.post(`http://localhost:3000/api/users/addresses/${userId}`, {
         ...formData,
       });
+      toast.success("Dirección agregada!");
       setAddresses([...addresses, response.data]); // Agregar la nueva dirección a la lista
       setFormData({ street: "", city: "", country: "", postal_code: "" }); // Limpiar el formulario
-      toast.success("Dirección agregada!");
     } catch (error) {
       console.error("Error adding address:", error);
     } finally {
@@ -130,7 +130,6 @@ const AddressForm = () => {
                       {isLoading ? "Guardando..." : "Agregar Dirección"}
                     </button>
                   </form>
-
                 </div>
               </div>
             </div>
