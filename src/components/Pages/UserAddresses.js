@@ -14,7 +14,7 @@ const AddressForm = () => {
     if (!userId) return; // Verifica si el ID del usuario existe
     const fetchAddresses = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/users/addresses/${userId}`);
+        const response = await axios.get(`http://54.226.228.162:3000/api/users/addresses/${userId}`);
         setAddresses(response.data);
       } catch (error) {
         console.error("Error fetching addresses:", error);
@@ -27,7 +27,7 @@ const AddressForm = () => {
   const deleteAddress = async (addressId) => {
     try {
       setIsLoading(true);
-      await axios.delete(`http://localhost:3000/api/users/addresses/${userId}/${addressId}`);
+      await axios.delete(`http://54.226.228.162:3000/api/users/addresses/${userId}/${addressId}`);
       // Actualiza el estado eliminando la dirección localmente
       setAddresses(addresses.filter(address => address._id !== addressId));
     } catch (error) {

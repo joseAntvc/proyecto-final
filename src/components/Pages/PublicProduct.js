@@ -10,7 +10,7 @@ export default function CreateProduct() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/categories')
+        axios.get('http://54.226.228.162:3000/api/categories')
             .then(response => setCategories(response.data))
             .catch(error => toast.error('Error al cargar categorías.'));
     }, []);
@@ -55,7 +55,7 @@ export default function CreateProduct() {
             return;
         }
 
-        axios.post('http://localhost:3000/api/products', formData, {
+        axios.post('http://54.226.228.162:3000/api/products', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
             .then(response => {

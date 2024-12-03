@@ -22,7 +22,7 @@ function Shop() {
         const fetchCategories = async () => {
             setLoadingC(true);
             try {
-                const categoriesResponse = await axios.get('http://172.31.30.89:3000/api/categories/count');
+                const categoriesResponse = await axios.get('http://54.226.228.162:3000/api/categories/count');
                 setCategories(categoriesResponse.data.categories);
                 setTotal(categoriesResponse.data.total);
             } catch (error) {
@@ -40,7 +40,7 @@ function Shop() {
             setErrorMessage("");
             try {
                 let productsUrl = selectedCategory
-                    ? `http://172.31.30.89:3000/api/products/category/${selectedCategory._id}` : 'http://172.31.30.89:3000/api/products';
+                    ? `http://54.226.228.162:3000/api/products/category/${selectedCategory._id}` : 'http://54.226.228.162:3000/api/products';
 
                 if (searchKeyword) {
                     productsUrl += `/search?name=${searchKeyword}`;  // Agregar el término de búsqueda

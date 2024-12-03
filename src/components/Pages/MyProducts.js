@@ -23,7 +23,7 @@ function MyProducts() {
       window.scrollTo(0, 0);
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/products/user/${userId}`
+          `http://54.226.228.162:3000/api/products/user/${userId}`
         );
         setProducts(response.data);
       } catch (error) {
@@ -50,7 +50,7 @@ function MyProducts() {
     if (confirm.isConfirmed) {
       try {
         //userId
-        await axios.delete(`http://localhost:3000/api/products/delete/${productId}?userId=${userId}`);
+        await axios.delete(`http://54.226.228.162:3000/api/products/delete/${productId}?userId=${userId}`);
         
         setProducts((prevProducts) =>
           prevProducts.filter((p) => p.product_id?._id !== productId)

@@ -44,7 +44,7 @@ const AddressForm = () => {
     setIsLoading(true);
     try {
       // Cambiar el endpoint para enviar la dirección al usuario específico
-      const response = await axios.post(`http://localhost:3000/api/users/addresses/${userId}`, {
+      const response = await axios.post(`http://54.226.228.162:3000/api/users/addresses/${userId}`, {
         ...formData,
       });
       toast.success("Dirección agregada!");

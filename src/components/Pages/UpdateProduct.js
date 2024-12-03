@@ -50,7 +50,7 @@ export default function UpdateProduct() {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/categories"
+          "http://54.226.228.162:3000/api/categories"
         );
         setCategories(response.data);
       } catch (error) {
@@ -61,7 +61,7 @@ export default function UpdateProduct() {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/products/detail/${id}`
+          `http://54.226.228.162:3000/api/products/detail/${id}`
         );
         const product = response.data;
         setFormData({
@@ -124,7 +124,7 @@ export default function UpdateProduct() {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/products/update/${id}`,formData,{ 
+        `http://54.226.228.162:3000/api/products/update/${id}`,formData,{ 
             headers: { "Content-Type": "multipart/form-data" },
         }
       );
