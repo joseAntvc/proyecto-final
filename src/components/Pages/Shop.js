@@ -22,7 +22,7 @@ function Shop() {
         const fetchCategories = async () => {
             setLoadingC(true);
             try {
-                const categoriesResponse = await axios.get('http://localhost:3000/api/categories/count');
+                const categoriesResponse = await axios.get('http://54.226.228.162/:3000/api/categories/count');
                 setCategories(categoriesResponse.data.categories);
                 setTotal(categoriesResponse.data.total);
             } catch (error) {
