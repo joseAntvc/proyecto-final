@@ -78,7 +78,7 @@ function Cart() {
         const orderData = {
             user: userId, // ID del usuario
             shipping_address: selectedAddress, // Dirección seleccionada
-            billing_address: selectedBiling,
+            billing_address: selectedBiling ? selectedBiling : null,
             items: carrito.map((item) => ({
                 product: item.product._id, // ID del producto
                 quantity: item.quantity,
