@@ -5,13 +5,14 @@ import Page from '../elements/Page';
 import Sidebar from './Sidebar';
 
 const Report = () => {
-
+    const user = JSON.parse(localStorage.getItem("user"));
+    const id = user?.id;
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/reports/sales/674cb38b3d5fa2112e933f47')
+        fetch(`http://54.226.228.162:3000/api/reports/sales/${id}`)
             .then((response) => {
 
                 if (!response.ok) throw new Error('Error al obtener los datos');
