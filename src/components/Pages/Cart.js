@@ -78,7 +78,7 @@ function Cart() {
         const orderData = {
             user: userId, // ID del usuario
             shipping_address: selectedAddress, // Dirección seleccionada
-            billing_address: selectedBiling || null,
+            billing_address: selectedBiling,
             items: carrito.map((item) => ({
                 product: item.product._id, // ID del producto
                 quantity: item.quantity,
@@ -87,12 +87,10 @@ function Cart() {
             total_amount: Desc
                 ? ((100 - Desc.percentage) / 100 * priceTotal()).toFixed(2)
                 : priceTotal().toFixed(2),
-            coupons: Desc ? [Desc._id] : [], // Si hay un cupón, incluirlo
+            coupons: Desc ? Desc._id : '', // Si hay un cupón, incluirlo
             date: new Date().toISOString(), // Fecha de la orden
             payment: selectP
         };
-
-
 
         try {
             const response = await axios.post('http://localhost:3000/api/orders', orderData);

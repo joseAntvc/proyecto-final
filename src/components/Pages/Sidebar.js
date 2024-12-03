@@ -25,6 +25,9 @@ function Sidebar() {
                     <li>
                         <Link to="/public" className="d-block py-2 text-dark">Publicar Producto</Link>
                     </li>
+                    <li>
+                        <Link to="/report" className="d-block py-2 text-dark">Estadisticas</Link>
+                    </li>
                 </ul>
             </div>
         </div>

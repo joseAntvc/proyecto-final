@@ -26,6 +26,7 @@ import OrderHistory from "./components/Pages/OrderHistory";
 import UserAddresses from "./components/Pages/UserAddresses"
 import AddMyAddresses from "./components/Pages/AddMyAddresses";
 import MyProducts from "./components/Pages/MyProducts";
+import Report from "./components/Pages/Report";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
               <Route path="/my_addresses" element={<UserAddresses />} /> {/*Ruta para ver las direcciones del usuario*/}
               <Route path="/add_addresses" element={<AddMyAddresses />} /> {/*Ruta para agregar direcciones del usuario*/}
               <Route path="/my_products" element={<MyProducts />} />
+              <Route path="/report" element={<Report />} />
               {/*Se redirigira a la pagina cuando se quiera acceder a algo que no*/}
               <Route path="*" element={<Error />} />
             </Routes>
