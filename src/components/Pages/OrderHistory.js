@@ -57,6 +57,12 @@ function OrderHistory() {
                                                             <br />
                                                             <strong>Total:</strong> $
                                                             {order.total_amount.toLocaleString()}
+                                                            <br/>
+                                                            {(order.coupons !== null) ? (
+                                                                <>
+                                                                    <strong>Desc:</strong> {order.coupons}%  -  <strong>Total:</strong> ${(((100 - order.coupons)/100) * order.total_amount).toLocaleString()}     
+                                                                </>
+                                                            ) : ''}
                                                             <hr />
                                                             <h6>Artículos:</h6>
                                                             <ul>
@@ -64,7 +70,7 @@ function OrderHistory() {
                                                                     <li key={idx}>
                                                                         {item.product_name} - {item.quantity} x $
                                                                         {item.price
-                                                                            ? parseFloat(item.price).toFixed(2).toLocaleString()
+                                                                            ? (item.price).toLocaleString()
                                                                             : '0.00'}{' '}
                                                                         = $
                                                                         {(item.quantity * (item.price || 0)).toLocaleString()}

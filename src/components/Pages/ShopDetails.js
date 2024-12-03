@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Page from '../elements/Page'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import Spinner from '../elements/Spinner';
 import { CartContext } from '../../context/CartContext';
