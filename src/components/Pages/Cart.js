@@ -27,8 +27,8 @@ function Cart() {
         setLoading(false);
         const fetchAddresses = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/users/addresses/${userId}`);
-                const responsePayment = await axios.get(`http://localhost:3000/api/users/payment`);
+                const response = await axios.get(`http://54.226.228.162:3000/api/users/addresses/${userId}`);
+                const responsePayment = await axios.get(`http://54.226.228.162:3000/api/users/payment`);
                 setAddresses(response.data);
                 setPayments(responsePayment.data);
             } catch (error) {
@@ -46,7 +46,7 @@ function Cart() {
     };
 
     const handleApplyCode = async () => {
-        const url = "http://localhost:3000/api/coupon";
+        const url = "http://54.226.228.162:3000/api/coupon";
         const data = {
             code: code.current.value,
             expiration: new Date().toISOString(),
@@ -87,13 +87,13 @@ function Cart() {
             total_amount: Desc
                 ? ((100 - Desc.percentage) / 100 * priceTotal()).toFixed(2)
                 : priceTotal().toFixed(2),
-            coupons: Desc ? Desc._id : '', // Si hay un cupón, incluirlo
+            coupons: Desc ? [Desc._id] : null, // Si hay un cupón, incluirlo
             date: new Date().toISOString(), // Fecha de la orden
             payment: selectP
         };
 
         try {
-            const response = await axios.post('http://localhost:3000/api/orders', orderData);
+            const response = await axios.post('http://54.226.228.162:3000/api/orders', orderData);
             if (response.status === 200) {
                 vaciarCart()
                 toast.success("¡Compra realizada con éxito!");

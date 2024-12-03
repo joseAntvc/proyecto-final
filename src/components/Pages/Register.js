@@ -59,7 +59,7 @@ export default function Register() {
             return;
         }
 
-        const url = "http://localhost:3000/api/users/register";
+        const url = "http://54.226.228.162:3000/api/users/register";
         axios.post(url, data)
             .then((response) => {
                 if (response.status === 200) {

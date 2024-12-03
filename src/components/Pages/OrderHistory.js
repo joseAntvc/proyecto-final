@@ -19,7 +19,7 @@ function OrderHistory() {
             }
 
             try {
-                const response = await axios.get(`http://localhost:3000/api/orders/${userId}`);
+                const response = await axios.get(`http://54.226.228.162:3000/api/orders/${userId}`);
                 setOrders(response.data);
             } catch (error) {
                 console.error('Error al obtener las órdenes:', error);

@@ -17,7 +17,7 @@ function ShopDetails() {
         window.scrollTo(0, 0);
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/products/detail/${id}`);
+                const response = await axios.get(`http://54.226.228.162:3000/api/products/detail/${id}`);
                 setProduct(response.data);
             } catch (error) {
                 navigate('/error');

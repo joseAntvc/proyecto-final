@@ -24,7 +24,7 @@ function UserProfile() {
 
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/users/profile/${id}`);
+                const response = await axios.get(`http://54.226.228.162:3000/api/users/profile/${id}`);
                 const userDataFromApi = {
                     name: response.data.name,
                     last_name: response.data.last_name,
@@ -76,7 +76,7 @@ function UserProfile() {
         if (!id) return; // Verifica si el id está presente
 
         try {
-            const response = await axios.put(`http://localhost:3000/api/users/profile/${id}`, userData);
+            const response = await axios.put(`http://54.226.228.162:3000/api/users/profile/${id}`, userData);
             if (response.status === 200) {
                 toast.success('Perfil actualizado correctamente.');
                 setIsEditing(false); // Salir del modo edición
