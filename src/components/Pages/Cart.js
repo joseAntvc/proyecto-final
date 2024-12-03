@@ -87,7 +87,7 @@ function Cart() {
             total_amount: Desc
                 ? ((100 - Desc.percentage) / 100 * priceTotal()).toFixed(2)
                 : priceTotal().toFixed(2),
-            coupons: Desc ? [Desc._id] : [], // Si hay un cupón, incluirlo
+            coupons: Desc ? [Desc._id] : null, // Si hay un cupón, incluirlo
             date: new Date().toISOString(), // Fecha de la orden
             payment: selectP
         };
