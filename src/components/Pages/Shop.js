@@ -40,7 +40,7 @@ function Shop() {
             setErrorMessage("");
             try {
                 let productsUrl = selectedCategory
-                    ? `http://localhost:3000/api/products/category/${selectedCategory._id}` : 'http://localhost:3000/api/products';
+                    ? `http://54.226.228.162/:3000/api/products/category/${selectedCategory._id}` : 'http://54.226.228.162/:3000/api/products';
 
                 if (searchKeyword) {
                     productsUrl += `/search?name=${searchKeyword}`;  // Agregar el término de búsqueda
